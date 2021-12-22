@@ -7,13 +7,14 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import InputRequired
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['DEBUG'] = 1
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +31,14 @@ def index():
     tasks = Task.query.all()
 
     return render_template('index.html', tasks=tasks, form=form)
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 @app.route('/add', methods=['POST'])
 def add():

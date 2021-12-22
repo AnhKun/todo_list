@@ -1,115 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+{% block title %}ToDo List{% endblock %}
 
-    <style>
-        .app-container {
-            height: 100vh;
-            width: 100%;
-        }
-
-        .complete {
-            text-decoration: line-through;
-        }
-
-        .profile-image img {
-            border-radius: 50%;
-            width: 140px;
-            border: 3px solid #fff;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
-        }
-
-    </style>
-</head>
-
-<body>
-    <div class="row">
-        <div class="app-container col-md-4 d-flex align-items-center justify-content-center flex-column ">
-                <div class="body">
-                    <div class="row">
-                        <div class="profile-image float-md-right"> 
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt=""> 
-                        </div>
-                    </div>
-
-                    <div class="row">
-                            <h4><strong>Hoang Anh</strong></h4>
-                    </div>
-                </div>
-        </div>
+{% block content %}
+<div class="row align-items-center justify-content-center">
+    <h4 class="font_color"><strong>Hoang Anh</strong></h4>
+</div>
+<div class="row align-items-center justify-content-center">
+    <a href="{{ url_for('register') }}">
+    <button class="button is-link is-rounded">Register</button>
+    </a>
+    <a href="{{ url_for('login') }}">
+        <button class="button is-info is-rounded">Login</button>
+    </a>
+    <a href="#">
+        <button class="button is-danger is-rounded">Logout</button>
+    </a>
+</div>
 
 
+<br><br><br><br>
+<div class="row d-flex align-items-center justify-content-center flex-column ">
+    <h3 class="font_color">Todo App</h3>
 
-        <div class="app-container col-md-8 d-flex align-items-center justify-content-center flex-column ">
-            <h3>Todo App</h3>
-
-            <form action={{ url_for('add') }} method="POST">
-                {{ form.csrf_token }}
-                <div class="d-flex align-items-center mb-3">
-                    <div class="form-group mr-3 mb-0">
-                        {{ form.task(class="form-control", placeholder="Enter a task here") }}
-                    </div>
-                    {{ form.submit(class="btn btn-primary mr-3") }}
-                </div>
-            </form>
-
-            <div>
-                {% for message in get_flashed_messages() %}
-                <div class="alert alert-warning">
-                    <button type="button" class="close" data-dismiss="alert"></button>
-                    {{ message }}
-                </div>
-                {% endfor %}
+    <form action={{ url_for('add') }} method="POST">
+        {{ form.csrf_token }}
+        <div class="d-flex align-items-center mb-3">
+            <div class="form-group mr-3 mb-0">
+                {{ form.task(class="form-control", placeholder="Enter a task here") }}
             </div>
-
-            <div class="table-wrapper">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Todo item</th>
-                            <th>status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for task in tasks %}
-                        {% if task.status == 'Completed' %}
-                        <tr class="table-success">
-                            <td class="complete">
-                                {% else %}
-                        <tr class="table-light">
-                            <td>
-                                {% endif %}
-                                {{ task.name }}
-                            </td>
-                            <td>{{ task.status }}</td>
-                            <td>
-                                <a href={{ url_for('delete', id=task.id) }} <button class="btn btn-danger"
-                                    ng-click="delete($index)">
-                                    Delete
-                                    </button>
-                                </a>
-
-                                <a href={{ url_for('completed', id=task.id) }}>
-                                    <button class="btn btn-success">
-                                        Finished
-                                    </button>
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {{ form.submit(class="btn btn-primary mr-3") }}
         </div>
+    </form>
+
+    <div>
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert"></button>
+            {{ message }}
+        </div>
+        {% endfor %}
     </div>
 
-</body>
+    <div class="table-wrapper">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th class="font_color">Todo item</th>
+                    <th class="font_color">Status</th>
+                    <th class="font_color">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                {% if task.status == 'Completed' %}
+                <tr class="table-success">
+                    <td class="complete">
+                        {% else %}
+                <tr class="table-light">
+                    <td>
+                        {% endif %}
+                        {{ task.name }}
+                    </td>
+                    <td>{{ task.status }}</td>
+                    <td>
+                        <a href={{ url_for('delete', id=task.id) }} <button class="btn btn-danger"
+                            ng-click="delete($index)">
+                            Delete
+                            </button>
+                        </a>
 
-</html>
+                        <a href={{ url_for('completed', id=task.id) }}>
+                            <button class="btn btn-success">
+                                Finished
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

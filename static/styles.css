@@ -1,0 +1,68 @@
+
+.app-container {
+    height: 100vh;
+    width: 100%;
+}
+
+.complete {
+    text-decoration: line-through;
+}
+
+.profile-image img {
+    border-radius: 50%;
+    width: 140px;
+    border: 3px solid rgb(237, 243, 220);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+}
+
+body {
+    background: linear-gradient(#2b5876, #4e4376);
+}
+
+.font_color{
+    color: rgb(237, 243, 220);
+}
+
+.button.is-info {
+    background-color: #3e8ed0;
+    border-color: transparent;
+    color: #fff;
+}
+
+.button.is-rounded {
+    border-radius: 9999px;
+    padding-left: calc(1em + 0.25em);
+    padding-right: calc(1em + 0.25em);
+}
+
+.button.is-link {
+    background-color: #485fc7;
+    border-color: transparent;
+    color: #fff;
+}
+
+.button.is-danger {
+    background-color: #f14668;
+    border-color: transparent;
+    color: #fff;
+}
+
+.form__input {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    font-family: "Roboto";
+    -webkit-appearance: none;
+    border: 0;
+    outline: 0;
+    transition: 0.3s;
+}
+
+.form {
+    margin-top: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translate3d(0, 500px, 0);
+    animation: arrive 500ms ease-in-out 0.9s forwards;
+}

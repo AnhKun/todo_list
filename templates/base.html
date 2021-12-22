@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="static/styles.css">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <br><br>
+    <div class="app-container">
+        <div class=" d-flex align-items-center justify-content-center flex-column">
+            <div class="body">
+                <div class="row align-items-center justify-content-center">
+                    <div class="profile-image float-md-right">
+                        <img src="{{ url_for('static', filename='anonymous.png') }}" alt="">
+                    </div>
+                </div>
+                {% block content %}
+                
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
