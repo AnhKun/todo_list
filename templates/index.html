@@ -3,9 +3,33 @@
 {% block title %}ToDo List{% endblock %}
 
 {% block content %}
+{% if logged_in_user.is_authenticated %}
 <div class="row align-items-center justify-content-center">
-    <h4 class="font_color"><strong>Hoang Anh</strong></h4>
+    <div class="profile-image float-md-right">
+        <img src="{{ url_for('static', filename='images/' + logged_in_user.image) }}" alt="">
+    </div>
 </div>
+
+<div class="row align-items-center justify-content-center">
+    <h4 class="font_color"><strong>{{ logged_in_user.username }}</strong></h4>
+</div>
+
+<div class="row align-items-center justify-content-center">
+    <a href="{{ url_for('logout') }}">
+        <button class="button is-danger is-rounded">Logout</button>
+    </a>
+</div>
+{% else %}
+<div class="row align-items-center justify-content-center">
+    <div class="profile-image float-md-right">
+        <img src="{{ url_for('static', filename='anonymous.png') }}" alt="">
+    </div>
+</div>
+
+<div class="row align-items-center justify-content-center">
+    <h4 class="font_color"><strong>User</strong></h4>
+</div>
+
 <div class="row align-items-center justify-content-center">
     <a href="{{ url_for('register') }}">
     <button class="button is-link is-rounded">Register</button>
@@ -13,10 +37,10 @@
     <a href="{{ url_for('login') }}">
         <button class="button is-info is-rounded">Login</button>
     </a>
-    <a href="#">
-        <button class="button is-danger is-rounded">Logout</button>
-    </a>
 </div>
+{% endif %}
+
+
 
 
 <br><br><br><br>
