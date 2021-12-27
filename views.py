@@ -1,9 +1,11 @@
+import os
 from flask import render_template, redirect, url_for, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import app, photos, db, login_manager
+from app import app, db, photos, login_manager
 from forms import TaskForm, RegisterForm
 from models import User, Task
+from werkzeug.utils import secure_filename
 
 @app.route('/')
 def index():
@@ -24,16 +26,22 @@ def register():
         if form.image.data:
             image = photos.save(form.image.data)
 
-        new_user = User(
-            username = form.username.data,
-            password = generate_password_hash(form.password.data),
-            image = image
-        )
-        db.session.add(new_user)
-        db.session.commit()
+        new_user = User.query.filter_by(username=form.username.data).first()
 
-        login_user(new_user)
-        return redirect(url_for('index'))
+        if new_user:
+            flash('Username already exist!')
+        else:
+            new_user = User(
+                username = form.username.data,
+                password = generate_password_hash(form.password.data),
+                image = image
+            )
+            
+            db.session.add(new_user)
+            db.session.commit()
+
+            login_user(new_user)
+            return redirect(url_for('index'))
         
     return render_template('register.html', form=form)
 

@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_uploads import IMAGES, UploadSet, configure_uploads
 
+
 app = Flask(__name__)
 
 photos = UploadSet('photos', IMAGES)
