@@ -8,7 +8,11 @@ from models import User, Task
 @app.route('/')
 def index():
     form = TaskForm()
-    tasks = Task.query.all()
+
+    if current_user.is_anonymous:
+        tasks = Task.query.filter_by(user_id=0).all()
+    else:
+        tasks = Task.query.filter_by(user_id=current_user.id).all()
 
     return render_template('index.html', tasks=tasks, form=form, logged_in_user=current_user)
 
@@ -62,16 +66,13 @@ def logout():
 @app.route('/add', methods=['POST'])
 def add():
     form = TaskForm()
-
-    available_task = Task.query.filter_by(name=form.task.data).first()
-
     if form.validate():
-        if available_task:
-            flash('This task alredy exist!')
+        if current_user.is_anonymous:
+            new_task = Task(name=form.task.data, status='In progress', user_id=0)
         else:
-            new_task = Task(name=form.task.data, status='In progress')
-            db.session.add(new_task)
-            db.session.commit()
+            new_task = Task(name=form.task.data, status='In progress', user_id=current_user.id)
+        db.session.add(new_task)
+        db.session.commit()
 
         return redirect(url_for('index'))
 
