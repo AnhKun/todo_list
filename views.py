@@ -64,19 +64,18 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/add', methods=['POST'])
+@login_required
 def add():
     form = TaskForm()
     if form.validate():
-        if current_user.is_anonymous:
-            new_task = Task(name=form.task.data, status='In progress', user_id=0)
-        else:
-            new_task = Task(name=form.task.data, status='In progress', user_id=current_user.id)
+        new_task = Task(name=form.task.data, status='In progress', user_id=current_user.id)
         db.session.add(new_task)
         db.session.commit()
 
         return redirect(url_for('index'))
 
 @app.route('/completed/<id>')
+@login_required
 def completed(id):
     task = Task.query.filter_by(id=id).first()
 
@@ -87,6 +86,7 @@ def completed(id):
     return redirect(url_for('index'))
 
 @app.route('/delete/<id>')
+@login_required
 def delete(id):
     task = Task.query.filter_by(id=id).first()
 
